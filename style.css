@@ -38,6 +38,10 @@ body {
     width: calc(100vw - 30px);
 }
 
+.colorMakeWhite {
+    color: white;
+}
+
 header {
     background-color: #333;
     padding: 10px 0;
@@ -70,6 +74,7 @@ h1 > span {
     font-family: "Montserrat", sans-serif;
     color: #0284d4;
 }
+
 
 button {
     color: black;
