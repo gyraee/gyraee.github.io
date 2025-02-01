@@ -13,9 +13,9 @@
     "rewardedBreaks": false,
     "rewardedBreaksMobile": false,
     "autoload": false,
-    "leaderboards": false,
+    "leaderboards": true,
     "useDefaultPrompt": false,
     "vconsole": false,
     "monitor": false,
-    "maxNicknameChars": 15
+    "maxNicknameChars": 10
 }
