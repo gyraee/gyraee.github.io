@@ -16,6 +16,14 @@ body {
     text-align: center;
 }
 
+.under-search {
+    position:fixed;
+    left: 40%;
+    top: 40%;
+    transform: translate(-40%, -40%);
+    text-align: center;
+}
+
 .iframeWindow {
     position: absolute;
     width: 100vw;
@@ -127,6 +135,7 @@ h1 {
     max-width: 1200px;
     margin: 0 auto;
 }
+
 
 .pxyinput {
     width: 600px;

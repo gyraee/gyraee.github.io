@@ -1,46 +1,41 @@
-const frame = document.querySelector("iframe")
-const div = document.querySelector(".center-container")
-frame.style.display = "none"
+const frame = document.querySelector("iframe");
+const div = document.querySelector(".center-container");
 const input = document.querySelector("input");
-input.addEventListener("keyup", function (event) {
-    if (event.key === "Enter") {
-        div.style.display = 'none'
-        frame.style.display = 'block'
-        document.querySelector("iframe").src = __uv$config.prefix + __uv$config.encodeUrl(search(input.value));
 
+// Hide the iframe initially
+frame.style.display = "none";
+
+// Handle Enter key press in input field
+input.addEventListener("keyup", function (event) {
+    if (event.key === "Enter" && input.value.trim()) {
+        performSearch(input.value);
     }
 });
 
-var params = new URLSearchParams(window.location.search)
-console.log("Searching for " + params.get("q"))
-if (params.get("q")) {
-    div.style.display = 'none'
-    frame.style.display = 'block'
-    document.querySelector("iframe").src = __uv$config.prefix + __uv$config.encodeUrl(search(params.get("q")));
+// Handle query parameters on page load
+const params = new URLSearchParams(window.location.search);
+const query = params.get("q");
+if (query) {
+    performSearch(query);
 }
 
-function search(input, template) {
+// Function to determine if input is a URL or a search query
+function search(input) {
     try {
-        // input is a valid URL:
-        // eg: https://example.com, https://example.com/test?q=param
-        return new URL(input).toString();
+        return new URL(input).toString(); // Valid full URL
     } catch (err) {
-        // input was not a valid URL
+        try {
+            const url = new URL(`http://${input}`);
+            if (url.hostname.includes(".")) return url.toString(); // Valid domain with TLD
+        } catch (err) {}
     }
+    // Fallback to a Google search query
+    return `https://www.google.com/search?q=${encodeURIComponent(input)}`;
+}
 
-    try {
-        // input is a valid URL when http:// is added to the start:
-        // eg: example.com, https://example.com/test?q=param
-        const url = new URL(`http://${input}`);
-        // only if the hostname has a TLD/subdomain
-        if (url.hostname.includes(".")) return url.toString();
-    } catch (err) {
-        // input was not valid URL
-    }
-
-    // input may have been a valid URL, however the hostname was invalid
-
-    // Attempts to convert the input to a fully qualified URL have failed
-    // Treat the input as a search query
-    return `https://www.google.com/search?q=${encodeURIComponent(input)}`
+// Function to update UI and perform the search
+function performSearch(query) {
+    div.style.display = "none";
+    frame.style.display = "block";
+    frame.src = __uv$config.prefix + __uv$config.encodeUrl(search(query));
 }
